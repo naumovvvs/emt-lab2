@@ -25,14 +25,19 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    public Optional<Book> findBookById(Long id) {
+        return this.bookRepository.findById(id);
+    }
+
+    @Override
     public Optional<Book> addNewBook(String name, Category category, Author author, Integer availableCopies) {
         return Optional.of(this.bookRepository.save(new Book(name, category, author, availableCopies)));
     }
 
     @Override
-    public void deleteBook(String name) {
-        Book book = this.bookRepository.findByName(name).orElseThrow(() -> new BookNotFoundException(name));
-        this.bookRepository.deleteById(book.getId());
+    public void deleteBook(Long id) {
+        Book book = this.bookRepository.findById(id).orElseThrow(() -> new BookNotFoundException(""+id));
+        this.bookRepository.deleteById(id);
     }
 
     @Override
