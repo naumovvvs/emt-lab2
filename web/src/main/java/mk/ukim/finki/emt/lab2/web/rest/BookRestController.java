@@ -2,11 +2,13 @@ package mk.ukim.finki.emt.lab2.web.rest;
 
 import mk.ukim.finki.emt.lab2.model.Book;
 import mk.ukim.finki.emt.lab2.model.dto.BookDto;
+import mk.ukim.finki.emt.lab2.model.exceptions.BookNotFoundException;
 import mk.ukim.finki.emt.lab2.service.BookService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
@@ -27,6 +29,19 @@ public class BookRestController {
     public ResponseEntity<Book> getBook(@PathVariable Long id){
         return this.bookService.findBookById(id)
                 .map(book -> ResponseEntity.ok().body(book))
+                .orElseGet(() -> ResponseEntity.badRequest().build());
+    }
+
+    @GetMapping("/{id}/reserve")
+    public ResponseEntity<Book> markAsTaken(@PathVariable Long id){
+        Optional<Book> book = this.bookService.findBookById(id);
+
+        if(book.isEmpty()){
+            throw new BookNotFoundException("ERROR");
+        }
+
+        return this.bookService.markAsTaken(book.get().getName())
+                .map(tmp -> ResponseEntity.ok().body(tmp))
                 .orElseGet(() -> ResponseEntity.badRequest().build());
     }
 

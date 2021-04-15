@@ -14,4 +14,10 @@ public class HomeController {
         model.addAttribute("bodyContent", "index");
         return "master-template";
     }
+
+    @GetMapping("/categories")
+    public String getCategoriesPage(Model model){
+        model.addAttribute("bodyContent", "categories");
+        return "master-template";
+    }
 }
