@@ -1,4 +1,4 @@
-package mk.ukim.finki.emt.lab2.model;
+package mk.ukim.finki.emt.lab2.model.enumerations;
 
 import org.springframework.security.core.GrantedAuthority;
 

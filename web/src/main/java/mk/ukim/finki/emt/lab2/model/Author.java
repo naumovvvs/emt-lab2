@@ -13,6 +13,7 @@ public class Author {
 
     private String name;
     private String surname;
+
     @ManyToOne
     private Country country;
 }
